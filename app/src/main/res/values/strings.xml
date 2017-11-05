@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">SoftCompanies</string>
+    <string name="filter_company_hint">Enter a company name</string>
+    <string name="exit_message">Are you sure you want to quit?</string>
+    <string name="new_label">New</string>
+    <string name="update_label">Update</string>
+    <string name="delete_company_button_label">Delete</string>
+    <string name="company_name_hint">Enter a name</string>
+    <string name="company_url_hint">Enter a URL</string>
+    <string name="company_phone_hint">Enter a phone</string>
+    <string name="company_email_hint">Enter an email address</string>
+    <string name="company_prodserv_hint">Enter the products and services</string>
+    <string-array name="classification_company_array">
+        <item>Consultory</item>
+        <item>Custom Development</item>
+        <item>Software Factory</item>
+    </string-array>
+
+    <string name="company_persist_error">An error has occurred!</string>
+    <string name="company_persist_success">%s created successfully!</string>
 </resources>
