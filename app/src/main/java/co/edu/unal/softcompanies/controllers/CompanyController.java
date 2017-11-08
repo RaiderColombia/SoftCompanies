@@ -1,5 +1,7 @@
 package co.edu.unal.softcompanies.controllers;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,9 +17,11 @@ public class CompanyController {
 
     private CompanyDAO dao;
 
-    public CompanyController() {
-        dao = new CompanyDAO();
+    public CompanyController(Context context) {
+        dao = new CompanyDAO(context);
     }
+
+    public void close(){dao.closeConnection();}
 
     public boolean create(HashMap<Company.COMPANY_KEYS, String> companyMap){
         Company company = new Company();
@@ -34,7 +38,7 @@ public class CompanyController {
         return dao.findAllCompanies();
     }
 
-    public Company retrieve(int id){
+    public Company retrieve(long id){
         return dao.findById(id);
     }
 

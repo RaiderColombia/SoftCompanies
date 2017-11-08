@@ -49,12 +49,12 @@ public class CompanyActivity extends AppCompatActivity {
         mClassificationSpinner = findViewById(R.id.companyClassificationSpinner);
 
         company = new HashMap<>();
-        controller = new CompanyController();
+        controller = new CompanyController(getApplicationContext());
 
         if(label.equals(getText(R.string.new_label))){
             (findViewById(R.id.deleteCompanyButton)).setVisibility(View.GONE);
         }else{
-            int id = getIntent().getIntExtra(CompanyListActivity.EXTRA_SELECTED_COMPANY,0);
+            long id = intent.getLongExtra(CompanyListActivity.EXTRA_SELECTED_COMPANY,0);
             Company result = controller.retrieve(id);
             company.put(Company.COMPANY_KEYS.NAME, result.getName());
             company.put(Company.COMPANY_KEYS.URL, result.getUrl());
@@ -67,13 +67,19 @@ public class CompanyActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        controller.close();
+        super.onDestroy();
+    }
+
     private void buildCompanyFromViews(){
         String name = mNameEditText.getText().toString();
         String url = mUrlEditText.getText().toString();
         String phone = mPhoneEditText.getText().toString();
         String email = mEmailEditText.getText().toString();
         String products = mProductsEditText.getText().toString();
-        String classification = mClassificationSpinner.getSelectedItem().toString();
+        String classification = String.valueOf(mClassificationSpinner.getSelectedItemPosition());
 
         company.put(Company.COMPANY_KEYS.NAME, name);
         company.put(Company.COMPANY_KEYS.URL, url);

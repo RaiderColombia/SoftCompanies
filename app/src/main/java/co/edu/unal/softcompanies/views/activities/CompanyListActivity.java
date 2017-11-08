@@ -31,7 +31,7 @@ public class CompanyListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final ListView companiesListView = findViewById(R.id.companiesListView);
-        controller = new CompanyController();
+        controller = new CompanyController(getApplicationContext());
         companiesList = controller.retrieveAll();
         companyArrayAdapter = new ArrayAdapter<>(
                 getApplicationContext(),
@@ -48,6 +48,12 @@ public class CompanyListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        controller.close();
+        super.onDestroy();
     }
 
     @Override

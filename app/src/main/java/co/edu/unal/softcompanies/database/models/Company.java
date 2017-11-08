@@ -7,7 +7,7 @@ package co.edu.unal.softcompanies.database.models;
  */
 public class Company {
 
-    private int id;
+    private long id;
     private String name;
     private String url;
     private String phone;
@@ -24,11 +24,11 @@ public class Company {
         CLASSIFICATION
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
