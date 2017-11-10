@@ -43,4 +43,8 @@ public class CompanyController {
         return dao.update(company);
     }
 
+    public boolean delete(long id){
+        return dao.delete(id);
+    }
+
 }

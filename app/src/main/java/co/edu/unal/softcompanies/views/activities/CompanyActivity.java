@@ -15,6 +15,7 @@ import java.util.HashMap;
 import co.edu.unal.softcompanies.R;
 import co.edu.unal.softcompanies.controllers.CompanyController;
 import co.edu.unal.softcompanies.database.models.Company;
+import co.edu.unal.softcompanies.views.fragments.DeleteFragment;
 
 public class CompanyActivity extends AppCompatActivity {
 
@@ -121,8 +122,9 @@ public class CompanyActivity extends AppCompatActivity {
 
     public void deleteCompany(View view){
         buildCompanyHashMapFromViews();
-        /*DeleteFragment deleteFragment = new DeleteFragment();
+        DeleteFragment deleteFragment = new DeleteFragment();
         deleteFragment.setCompany(company);
-        deleteFragment.show(getSupportFragmentManager(), "deleteSoftCompanies");*/
+        deleteFragment.setController(controller);
+        deleteFragment.show(getSupportFragmentManager(), "deleteSoftCompanies");
     }
 }

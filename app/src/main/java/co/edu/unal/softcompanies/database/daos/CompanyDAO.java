@@ -48,6 +48,13 @@ public class CompanyDAO {
         return rowsAffected > 0;
     }
 
+    public boolean delete(long id){
+        String selection = CompanyContract.CompanyTable._ID + " = ?";
+        String[] selectionArgs = {String.valueOf(id)};
+        int rowsAffected = db.delete(CompanyContract.CompanyTable.TABLE_NAME, selection, selectionArgs);
+        return rowsAffected > 0;
+    }
+
     public ArrayList<Company> findAllCompanies(){
         String[] projection = {
             CompanyContract.CompanyTable._ID,
