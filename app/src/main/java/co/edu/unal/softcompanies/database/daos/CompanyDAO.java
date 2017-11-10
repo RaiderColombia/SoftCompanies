@@ -11,6 +11,8 @@ import co.edu.unal.softcompanies.database.models.Company;
 import co.edu.unal.softcompanies.database.sqlite.CompanyContract;
 import co.edu.unal.softcompanies.database.sqlite.CompanyDbHelper;
 
+import static co.edu.unal.softcompanies.utils.Utils.buildValues;
+
 /**
  * SoftCompanies
  * Created by Jhon Ramirez on 11/5/17.
@@ -31,16 +33,19 @@ public class CompanyDAO {
     }
 
     public boolean persist(Company company){
-        ContentValues values = new ContentValues();
-        values.put(CompanyContract.CompanyTable.COLUMN_NAME_NAME, company.getName());
-        values.put(CompanyContract.CompanyTable.COLUMN_NAME_URL, company.getUrl());
-        values.put(CompanyContract.CompanyTable.COLUMN_NAME_PHONE, company.getPhone());
-        values.put(CompanyContract.CompanyTable.COLUMN_NAME_EMAIL, company.getEmail());
-        values.put(CompanyContract.CompanyTable.COLUMN_NAME_PRODUCTS, company.getProducts());
-        values.put(CompanyContract.CompanyTable.COLUMN_NAME_CLASSIFICATION, company.getClassification());
+        ContentValues values = buildValues(company);
         long newRowId = db.insert(CompanyContract.CompanyTable.TABLE_NAME, null, values);
         company.setId(newRowId);
-        return newRowId > 0;
+        return newRowId >= 0;
+    }
+
+    public boolean update(Company company){
+        long id = company.getId();
+        ContentValues values = buildValues(company);
+        String selection = CompanyContract.CompanyTable._ID + " = ?";
+        String[] selectionArgs = {String.valueOf(id)};
+        int rowsAffected = db.update(CompanyContract.CompanyTable.TABLE_NAME, values, selection, selectionArgs);
+        return rowsAffected > 0;
     }
 
     public ArrayList<Company> findAllCompanies(){

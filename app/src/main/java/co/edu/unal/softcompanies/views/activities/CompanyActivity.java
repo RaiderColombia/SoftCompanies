@@ -56,6 +56,7 @@ public class CompanyActivity extends AppCompatActivity {
         }else{
             long id = intent.getLongExtra(CompanyListActivity.EXTRA_SELECTED_COMPANY,0);
             Company result = controller.retrieve(id);
+            company.put(Company.COMPANY_KEYS.ID, String.valueOf(result.getId()));
             company.put(Company.COMPANY_KEYS.NAME, result.getName());
             company.put(Company.COMPANY_KEYS.URL, result.getUrl());
             company.put(Company.COMPANY_KEYS.PHONE, result.getPhone());
@@ -73,7 +74,7 @@ public class CompanyActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private void buildCompanyFromViews(){
+    private void buildCompanyHashMapFromViews(){
         String name = mNameEditText.getText().toString();
         String url = mUrlEditText.getText().toString();
         String phone = mPhoneEditText.getText().toString();
@@ -99,23 +100,27 @@ public class CompanyActivity extends AppCompatActivity {
     }
 
     public void saveChanges(View view){
-        buildCompanyFromViews();
+        String message = getString(R.string.company_crud_error);
+        buildCompanyHashMapFromViews();
+        String name = company.get(Company.COMPANY_KEYS.NAME);
         if(label.equals(getText(R.string.new_label))){
-            String message;
             if (controller.create(company)){
-                String name = company.get(Company.COMPANY_KEYS.NAME);
                 message = String.format(getString(R.string.company_persist_success), name);
                 startActivity(new Intent(this, CompanyListActivity.class));
                 finish();
-            }else{
-                message = getString(R.string.company_persist_error);
             }
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        }else{
+            if (controller.update(company)) {
+                message = String.format(getString(R.string.company_update_success), name);
+                startActivity(new Intent(this, CompanyListActivity.class));
+                finish();
+            }
         }
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     public void deleteCompany(View view){
-        buildCompanyFromViews();
+        buildCompanyHashMapFromViews();
         /*DeleteFragment deleteFragment = new DeleteFragment();
         deleteFragment.setCompany(company);
         deleteFragment.show(getSupportFragmentManager(), "deleteSoftCompanies");*/

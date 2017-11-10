@@ -16,6 +16,7 @@
         <item>Software Factory</item>
     </string-array>
 
-    <string name="company_persist_error">An error has occurred!</string>
+    <string name="company_crud_error">An error has occurred!</string>
     <string name="company_persist_success">%s created successfully!</string>
+    <string name="company_update_success">%s updated successfully!</string>
 </resources>

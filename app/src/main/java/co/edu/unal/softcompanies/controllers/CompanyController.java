@@ -8,6 +8,8 @@ import java.util.HashMap;
 import co.edu.unal.softcompanies.database.daos.CompanyDAO;
 import co.edu.unal.softcompanies.database.models.Company;
 
+import static co.edu.unal.softcompanies.utils.Utils.buildCompanyFromHashMap;
+
 /**
  * SoftCompanies
  * Created by Jhon Ramirez on 11/5/17.
@@ -24,13 +26,7 @@ public class CompanyController {
     public void close(){dao.closeConnection();}
 
     public boolean create(HashMap<Company.COMPANY_KEYS, String> companyMap){
-        Company company = new Company();
-        company.setName(companyMap.get(Company.COMPANY_KEYS.NAME));
-        company.setUrl(companyMap.get(Company.COMPANY_KEYS.URL));
-        company.setPhone(companyMap.get(Company.COMPANY_KEYS.PHONE));
-        company.setEmail(companyMap.get(Company.COMPANY_KEYS.EMAIL));
-        company.setProducts(companyMap.get(Company.COMPANY_KEYS.PRODUCTS));
-        company.setClassification(Integer.parseInt(companyMap.get(Company.COMPANY_KEYS.CLASSIFICATION)));
+        Company company = buildCompanyFromHashMap(companyMap);
         return dao.persist(company);
     }
 
@@ -40,6 +36,11 @@ public class CompanyController {
 
     public Company retrieve(long id){
         return dao.findById(id);
+    }
+
+    public boolean update(HashMap<Company.COMPANY_KEYS, String> companyMap){
+        Company company = buildCompanyFromHashMap(companyMap);
+        return dao.update(company);
     }
 
 }

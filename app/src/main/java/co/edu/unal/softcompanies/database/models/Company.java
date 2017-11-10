@@ -16,6 +16,7 @@ public class Company {
     private int classification;
 
     public enum COMPANY_KEYS {
+        ID,
         NAME,
         URL,
         PHONE,
