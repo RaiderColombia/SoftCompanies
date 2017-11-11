@@ -86,6 +86,39 @@ public class CompanyDAO {
         return companies;
     }
 
+    public ArrayList<Company> findByName(String name){
+        String[] projection = {
+            CompanyContract.CompanyTable._ID,
+            CompanyContract.CompanyTable.COLUMN_NAME_NAME
+        };
+
+        String selection = CompanyContract.CompanyTable.COLUMN_NAME_NAME + " like ?";
+        String[] selectionArgs = {"%"+name+"%"};
+        String sortOrder = CompanyContract.CompanyTable.COLUMN_NAME_NAME + " ASC";
+
+        Cursor cursor = db.query(
+            CompanyContract.CompanyTable.TABLE_NAME,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            sortOrder
+        );
+
+        ArrayList<Company> companies = new ArrayList<>();
+
+        while(cursor.moveToNext()){
+            Company company = new Company();
+            company.setId(cursor.getLong(cursor.getColumnIndex(CompanyContract.CompanyTable._ID)));
+            company.setName(cursor.getString(cursor.getColumnIndex(CompanyContract.CompanyTable.COLUMN_NAME_NAME)));
+            companies.add(company);
+        }
+        cursor.close();
+
+        return companies;
+    }
+
     public Company findById(long id){
         String[] projection = {
             CompanyContract.CompanyTable._ID,

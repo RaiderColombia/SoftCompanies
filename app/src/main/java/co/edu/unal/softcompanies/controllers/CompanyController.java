@@ -34,6 +34,10 @@ public class CompanyController {
         return dao.findAllCompanies();
     }
 
+    public ArrayList<Company> retrieveAllByName(String name){
+        return dao.findByName(name);
+    }
+
     public Company retrieve(long id){
         return dao.findById(id);
     }

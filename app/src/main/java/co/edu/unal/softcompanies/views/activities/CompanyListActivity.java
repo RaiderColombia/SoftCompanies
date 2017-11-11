@@ -3,10 +3,13 @@ package co.edu.unal.softcompanies.views.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -32,12 +35,14 @@ public class CompanyListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final ListView companiesListView = findViewById(R.id.companiesListView);
         controller = new CompanyController(getApplicationContext());
+
         companiesList = controller.retrieveAll();
         companyArrayAdapter = new ArrayAdapter<>(
                 getApplicationContext(),
                 android.R.layout.simple_list_item_1,
                 companiesList);
         companiesListView.setAdapter(companyArrayAdapter);
+
         companiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -48,6 +53,29 @@ public class CompanyListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        final EditText filterEditText = findViewById(R.id.filterEditText);
+        filterEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateCompaniesList(controller.retrieveAllByName(filterEditText.getText().toString()));
+            }
+        });
+    }
+
+    private void updateCompaniesList(ArrayList<Company> companies){
+        companiesList = companies;
+        companyArrayAdapter.clear();
+        for (Company company : companies) {
+            companyArrayAdapter.add(company);
+        }
+        companyArrayAdapter.notifyDataSetChanged();
     }
 
     @Override

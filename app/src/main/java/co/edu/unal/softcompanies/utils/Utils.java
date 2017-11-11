@@ -27,7 +27,9 @@ public class Utils {
 
     public static Company buildCompanyFromHashMap(HashMap<Company.COMPANY_KEYS, String> companyMap){
         Company company = new Company();
-        company.setId(Long.parseLong(companyMap.get(Company.COMPANY_KEYS.ID)));
+        if(companyMap.containsKey(Company.COMPANY_KEYS.ID)) {
+            company.setId(Long.parseLong(companyMap.get(Company.COMPANY_KEYS.ID)));
+        }
         company.setName(companyMap.get(Company.COMPANY_KEYS.NAME));
         company.setUrl(companyMap.get(Company.COMPANY_KEYS.URL));
         company.setPhone(companyMap.get(Company.COMPANY_KEYS.PHONE));
