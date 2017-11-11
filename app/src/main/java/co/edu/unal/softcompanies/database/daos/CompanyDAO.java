@@ -55,22 +55,30 @@ public class CompanyDAO {
         return rowsAffected > 0;
     }
 
-    public ArrayList<Company> findAllCompanies(){
+    private ArrayList<Company> find(String query){
         String[] projection = {
-            CompanyContract.CompanyTable._ID,
-            CompanyContract.CompanyTable.COLUMN_NAME_NAME
+                CompanyContract.CompanyTable._ID,
+                CompanyContract.CompanyTable.COLUMN_NAME_NAME,
+                CompanyContract.CompanyTable.COLUMN_NAME_CLASSIFICATION
         };
+
+        String selection = null;
+        String[] selectionArgs = null;
+        if(!query.equals("")) {
+            selection = CompanyContract.CompanyTable.COLUMN_NAME_NAME + " like ?";
+            selectionArgs = new String[]{"%" + query + "%"};
+        }
 
         String sortOrder = CompanyContract.CompanyTable.COLUMN_NAME_NAME + " ASC";
 
         Cursor cursor = db.query(
-            CompanyContract.CompanyTable.TABLE_NAME,
-            projection,
-            null,
-            null,
-            null,
-            null,
-            sortOrder
+                CompanyContract.CompanyTable.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
         );
 
         ArrayList<Company> companies = new ArrayList<>();
@@ -79,6 +87,7 @@ public class CompanyDAO {
             Company company = new Company();
             company.setId(cursor.getLong(cursor.getColumnIndex(CompanyContract.CompanyTable._ID)));
             company.setName(cursor.getString(cursor.getColumnIndex(CompanyContract.CompanyTable.COLUMN_NAME_NAME)));
+            company.setClassification(cursor.getInt(cursor.getColumnIndex(CompanyContract.CompanyTable.COLUMN_NAME_CLASSIFICATION)));
             companies.add(company);
         }
         cursor.close();
@@ -86,37 +95,12 @@ public class CompanyDAO {
         return companies;
     }
 
+    public ArrayList<Company> findAllCompanies(){
+        return find("");
+    }
+
     public ArrayList<Company> findByName(String name){
-        String[] projection = {
-            CompanyContract.CompanyTable._ID,
-            CompanyContract.CompanyTable.COLUMN_NAME_NAME
-        };
-
-        String selection = CompanyContract.CompanyTable.COLUMN_NAME_NAME + " like ?";
-        String[] selectionArgs = {"%"+name+"%"};
-        String sortOrder = CompanyContract.CompanyTable.COLUMN_NAME_NAME + " ASC";
-
-        Cursor cursor = db.query(
-            CompanyContract.CompanyTable.TABLE_NAME,
-            projection,
-            selection,
-            selectionArgs,
-            null,
-            null,
-            sortOrder
-        );
-
-        ArrayList<Company> companies = new ArrayList<>();
-
-        while(cursor.moveToNext()){
-            Company company = new Company();
-            company.setId(cursor.getLong(cursor.getColumnIndex(CompanyContract.CompanyTable._ID)));
-            company.setName(cursor.getString(cursor.getColumnIndex(CompanyContract.CompanyTable.COLUMN_NAME_NAME)));
-            companies.add(company);
-        }
-        cursor.close();
-
-        return companies;
+        return find(name);
     }
 
     public Company findById(long id){

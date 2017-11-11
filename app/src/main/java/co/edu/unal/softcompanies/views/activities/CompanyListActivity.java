@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import co.edu.unal.softcompanies.R;
 import co.edu.unal.softcompanies.controllers.CompanyController;
 import co.edu.unal.softcompanies.database.models.Company;
+import co.edu.unal.softcompanies.utils.ListCompanyAdapter;
 import co.edu.unal.softcompanies.views.fragments.ExitFragment;
 
 public class CompanyListActivity extends AppCompatActivity {
@@ -37,10 +37,13 @@ public class CompanyListActivity extends AppCompatActivity {
         controller = new CompanyController(getApplicationContext());
 
         companiesList = controller.retrieveAll();
+        companyArrayAdapter = new ListCompanyAdapter(this, R.layout.company_item_layout, companiesList);
+        /*
         companyArrayAdapter = new ArrayAdapter<>(
                 getApplicationContext(),
                 android.R.layout.simple_list_item_1,
                 companiesList);
+        */
         companiesListView.setAdapter(companyArrayAdapter);
 
         companiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
