@@ -107,13 +107,11 @@ public class CompanyActivity extends AppCompatActivity {
         if(label.equals(getText(R.string.new_label))){
             if (controller.create(company)){
                 message = String.format(getString(R.string.company_persist_success), name);
-                startActivity(new Intent(this, CompanyListActivity.class));
                 finish();
             }
         }else{
             if (controller.update(company)) {
                 message = String.format(getString(R.string.company_update_success), name);
-                startActivity(new Intent(this, CompanyListActivity.class));
                 finish();
             }
         }

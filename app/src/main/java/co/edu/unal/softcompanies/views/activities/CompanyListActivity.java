@@ -38,12 +38,6 @@ public class CompanyListActivity extends AppCompatActivity {
 
         companiesList = controller.retrieveAll();
         companyArrayAdapter = new ListCompanyAdapter(this, R.layout.company_item_layout, companiesList);
-        /*
-        companyArrayAdapter = new ArrayAdapter<>(
-                getApplicationContext(),
-                android.R.layout.simple_list_item_1,
-                companiesList);
-        */
         companiesListView.setAdapter(companyArrayAdapter);
 
         companiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
