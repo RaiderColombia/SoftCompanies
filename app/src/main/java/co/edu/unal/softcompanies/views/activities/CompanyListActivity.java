@@ -84,6 +84,11 @@ public class CompanyListActivity extends AppCompatActivity {
     @Override
     public void onRestart(){
         super.onRestart();
+        companyArrayAdapter.clear();
+        companiesList = controller.retrieveAll();
+        for (Company company : companiesList) {
+            companyArrayAdapter.add(company);
+        }
         companyArrayAdapter.notifyDataSetChanged();
     }
 

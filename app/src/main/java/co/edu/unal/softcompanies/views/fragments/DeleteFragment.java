@@ -48,7 +48,7 @@ public class DeleteFragment extends AppCompatDialogFragment {
                             message = String.format("%s Deleted!", name);
                         }
                         Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getActivity(), CompanyListActivity.class));
+                        //startActivity(new Intent(getActivity(), CompanyListActivity.class));
                         getActivity().finish();
                     }
                 })
